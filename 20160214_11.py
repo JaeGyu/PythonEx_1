@@ -1,0 +1,3 @@
+
+l=[]
+print dir(l)
