@@ -49,5 +49,38 @@ c.incr()
 print c.get()
 
 class D:
+	@staticmethod
 	def spam(x,y):
 		print "static method:",x,y
+
+
+D.spam(1,2) #인스턴스 객체 없이 클래스에서 직접 호출
+
+print
+d = D()
+d.spam(1,2) #인스턴스 객체를 통해서도 호출 가능
+
+
+class C:
+	@classmethod
+	def spam(cls, y):
+		print cls, "->", y
+	
+print C
+
+print
+C.spam(5)
+
+print
+c = C()
+c.spam(5)
+
+print "-"*80
+
+class D(C):  #클래스 D는 클래스 C를 상속한다.
+	pass
+
+D.spam(3)
+
+d = D()
+d.spam(3)
