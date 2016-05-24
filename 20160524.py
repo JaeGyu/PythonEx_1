@@ -17,3 +17,15 @@ args=[3,6]
 print(list(range(*args)))
 
 
+def dic_type_param_fun(a=1,b=2,c=3):
+	return a+b+c
+
+print(dic_type_param_fun())
+
+print(dic_type_param_fun(2,3,4))
+
+print(dic_type_param_fun(c=2,b=3,a=1))
+
+args = {'a':4, 'b':4, 'c':4}
+print(dic_type_param_fun(**args)) #**2개는 사전형타입을 언패킹 한다.
+
