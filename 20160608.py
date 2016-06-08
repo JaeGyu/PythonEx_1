@@ -27,3 +27,11 @@ for i,j in friendships:
 
 for user in users:
 	print user
+
+def number_of_friends(user):
+	"""user의 친구가 몇 명일까"""
+	return len(user["friends"])
+
+total_connections = sum(number_of_friends(user) for user in users)
+
+print "total_connections :",total_connections
