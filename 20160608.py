@@ -1,5 +1,5 @@
 #_*_ coding: utf-8 _*_
-
+from __future__ import division #이걸 붙이니깐 나누기가 실수형으로 됨
 users = [
 	{"id":0, "name":"Hero"},
 	{"id":1, "name":"Dunn"},
@@ -35,3 +35,8 @@ def number_of_friends(user):
 total_connections = sum(number_of_friends(user) for user in users)
 
 print "total_connections :",total_connections
+
+
+num_users = len(users)
+avg_connections = total_connections / num_users
+print "avg_connections :",avg_connections
