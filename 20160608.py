@@ -48,3 +48,8 @@ print "num_friends_by_id : ",num_friends_by_id
 sorted_num_friends_by_id = sorted(num_friends_by_id, key=lambda(user_id,num_friends): num_friends, reverse=True)
 
 print "sorted_num_friends_by_id : ",sorted_num_friends_by_id
+
+def friends_of_friend_ids_bad(user):
+	return [foaf["id"] for friend in user["friends"] for foaf in friend["friends"]]
+
+print "user[0]에게 추천해 줄 사람들의 id(본인의 id도 포함되어있음) : ",friends_of_friend_ids_bad(users[0])
