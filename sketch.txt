@@ -1,0 +1,4 @@
+man: "hello"
+woman: "hi"
+man: "abc":"bbb"
+woman: "이런이런"
