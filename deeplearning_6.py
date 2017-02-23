@@ -6,3 +6,4 @@ def relu(x):
 print(relu(10))
 print(relu(-5))
     
+ 
