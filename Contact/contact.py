@@ -73,20 +73,20 @@ def load_contact(contact_list):
     f.close()
 
 
-
-
 '''
    int()를 할 수 없는경우 버그가 남
 '''
-
-
 def print_menu():
     print("1. 연락처 입력")
     print("2. 연락처 출력")
     print("3. 연학처 삭제")
     print("4. 종     료")
     menu = input("메뉴선택 : ")
-    return int(menu)
+    try:
+        return int(menu)
+    except:
+        return print_menu()
+    
 
 
 def run():
