@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+</head>
+<body>
+    <script>
+        $(document).ready(function(){
+            var sock = io.connect("http://localhost:5000");
+            sock.on("connect", function(){
+                var connect_string = "new_connect";
+                sock.send(connect_string);
+            });
+
+            sock.on("hello", function(msg){
+                $("#message").append("<li>" +">>Hello : "+ msg + "</li>");
+                console.log("Received Hello Message");
+            });
+
+            sock.on("message", function(msg){
+                if(msg.type === "nomal"){
+                    $("#message").append(">> " + msg.message + "<br>");
+                } else {
+                    $("#message").append("<li>" + msg.message + "</li>");
+                }
+
+                console.log("Received Message : " + msg.type);
+            });
+
+            $("#sendButton").on("click", function(){
+                sock.send($("#myMessage").val());
+                $("#myMessage").val("")
+            });
+        });
+    </script>
+    <ul id="message"></ul>
+    <input type="text" id="myMessage">
+    <button id="sendButton">Send</button>
+</body>
+</html>
