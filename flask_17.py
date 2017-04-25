@@ -25,7 +25,6 @@ class Student(Resource):
         return jsonify(find_list)
 
 
-
 if __name__ == "__main__":
     app.run(debug=True)
 
