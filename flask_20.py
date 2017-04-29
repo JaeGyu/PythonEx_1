@@ -34,8 +34,9 @@ class Book(Resource):
     def get(self,id):
         return jsonify(books.find_by_id(id))
     
-    def delete(self):
-        return []
+    def delete(self,id):
+        books.delete(id)
+        return None, 204
 
 
 

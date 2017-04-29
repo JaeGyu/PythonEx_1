@@ -1,5 +1,12 @@
 from sqlite3 import * 
 
+def delete(id):
+    mydb = connect("/Users/jaegyuhan/dev/sqlite3/books.db") #db파일에 연결 없다면 생성
+    csr = mydb.cursor()  #커서 객체 얻기 
+    csr.execute("delete from books where id = ?", id)
+    mydb.commit()
+    mydb.close()
+
 def save(book):
     name = book["name"]
     price = book["price"]
