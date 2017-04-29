@@ -34,6 +34,11 @@ class Book(Resource):
     def get(self,id):
         return jsonify(books.find_by_id(id))
     
+    @ns.expect(book)
+    def put(self, id):
+        books.update(id, request.json)
+        return None, 204
+    
     def delete(self,id):
         books.delete(id)
         return None, 204
@@ -54,4 +59,4 @@ class CategoryCollection(Resource):
         return None, 201
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(use_reloader=True, debug = True)

@@ -1,5 +1,20 @@
 from sqlite3 import * 
 
+"""
+TODO
+AOP 비슷한 기능으로 DB 연결 관리 할 것
+"""
+
+def update(id,book):
+    name = book["name"]
+    price = book["price"]
+    mydb = connect("/Users/jaegyuhan/dev/sqlite3/books.db") #db파일에 연결 없다면 생성
+    csr = mydb.cursor()  #커서 객체 얻기 
+    csr.execute("update books set name = ?, price = ?  where id = ?", (name, price, id))
+    mydb.commit()
+    mydb.close()
+
+
 def delete(id):
     mydb = connect("/Users/jaegyuhan/dev/sqlite3/books.db") #db파일에 연결 없다면 생성
     csr = mydb.cursor()  #커서 객체 얻기 
