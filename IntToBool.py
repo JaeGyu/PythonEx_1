@@ -5,7 +5,6 @@ print(a)
 print(bool(a))
 print(bool(b))
 
-
 a = [{"a":0}]
 print(a)
 

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 from flask_restplus import Api, Resource, fields
 from todoManager import todoDao 
 
@@ -32,9 +32,9 @@ class Todo(Resource):
     
     @ns.expect(todo_item)
     def put(self, id):
-        # todoDao.update(id)
-        return None
+        todoDao.update(id, request.json)
+        return self.get()
     
     def delete(self, id):
         todoDao.remove(id)
-        return self.get()
+        return redirect("/todos/", code=307)

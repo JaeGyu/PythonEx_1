@@ -26,20 +26,23 @@ angular.module("todoApp").factory("todoRepository", function ($http) {
         
         remove: function(todo){
             console.log("todo.id : " + todo.id);
+            var id = todo.id;
             
             if(!promise3){
                 promise3  = $http({
                     method: "DELETE",
-                    url: "/todos/", //이부분은 RESTful하게 변경 할 것
-                    data: newTodo,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    url: "/todos/"+id //이부분은 RESTful하게 변경 할 것
+                   // data: todo,
+                   //  headers: {
+                   //      'Content-Type': 'application/json'
+                   //  }
                 }).then(function (response) {
                     angular.copy(response, repository.todos);
                     return repository.todos;
                 });
             }
+            
+            return promise3;
             
         },
 

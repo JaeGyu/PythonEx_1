@@ -1,5 +1,14 @@
 from sqlite3 import *
 
+def update(id, todo_item):
+    title = todo_item["title"]
+    completed = todo_item["completed"]
+    createdAt = todo_item["createdAt"]
+    mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db") #db파일에 연결 없다면 생성
+    csr = mydb.cursor()  #커서 객체 얻기 
+    csr.execute("update todo_list set title = ?, completed = ?  where id = ?", (title, completed, id))
+    mydb.commit()
+    mydb.close()
 
 def remove(id):
     mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db")  # db파일에 연결 없다면 생성
@@ -30,8 +39,6 @@ def find_all():
                  from todo_list""")
 
     all_data = csr.fetchall()
-    
-    # all_data = map(lambda data: {"id":data["id"], "title":data["title"], "create_time":data["create_time"], "completed": bool(data["completed"])}, all_data)
     
     col_names = [column[0] for column in csr.description]
 
