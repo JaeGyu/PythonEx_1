@@ -8,8 +8,6 @@ angular.module("todoApp").controller("todoCtrl", ["$scope", "todoStorage", "todo
         todoRepository.remove(todo).then(function(d){
             $scope.todos = d.data;
         });
-        
-        // todoStorage.remove(todo);
     };
 
     $scope.add = function (newTodoTitle) {
@@ -21,9 +19,8 @@ angular.module("todoApp").controller("todoCtrl", ["$scope", "todoStorage", "todo
         $scope.newTodoTitle = "";
     };
 
-    $scope.update = function () {
-        // todoRepository.
-        todoStorage.update();
+    $scope.update = function (todo) {
+        todoRepository.update(todo)
     };
 
 }]);

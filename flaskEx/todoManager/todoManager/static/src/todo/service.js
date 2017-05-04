@@ -2,12 +2,31 @@ angular.module("todoApp").factory("todoRepository", function ($http) {
     var promise;
     var promise2;
     var promise3;
-    
+
     var repository = {
         todos: [],
 
         test: function () {
             return [];
+        },
+
+        update: function (todo) {
+            var id = todo.id;
+            
+            console.log(todo);
+            
+            $http({
+                method: 'PUT',
+                url: '/todos/' + id,
+                data: todo,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            }).then(function (response) {
+                angular.copy(response, repository.todos);
+                return repository.todos;
+            });
         },
 
         findAll: function () {
@@ -23,27 +42,25 @@ angular.module("todoApp").factory("todoRepository", function ($http) {
 
             return promise;
         },
-        
-        remove: function(todo){
-            console.log("todo.id : " + todo.id);
+
+        remove: function (todo) {
+            // console.log("todo.id : " + todo.id);
             var id = todo.id;
-            
-            if(!promise3){
-                promise3  = $http({
+
+            // if (!promise3) {
+                promise3 = $http({
                     method: "DELETE",
-                    url: "/todos/"+id //이부분은 RESTful하게 변경 할 것
-                   // data: todo,
-                   //  headers: {
-                   //      'Content-Type': 'application/json'
-                   //  }
+                    url: "/todos/" + id //이부분은 RESTful하게 변경 할 것
                 }).then(function (response) {
                     angular.copy(response, repository.todos);
                     return repository.todos;
                 });
-            }
+            // }
             
+            
+
             return promise3;
-            
+
         },
 
         save: function (newTodoTitle) {
@@ -52,7 +69,7 @@ angular.module("todoApp").factory("todoRepository", function ($http) {
                 completed: false,
                 createdAt: Date.now()
             };
-            if (!promise2) {
+            // if (!promise2) {
                 promise2 = $http({
                     method: "POST",
                     url: "/todos/", //이부분은 RESTful하게 변경 할 것
@@ -64,8 +81,8 @@ angular.module("todoApp").factory("todoRepository", function ($http) {
                     angular.copy(response, repository.todos);
                     return repository.todos;
                 });
-            }
-            
+            // }
+
             return promise2;
         }
 
