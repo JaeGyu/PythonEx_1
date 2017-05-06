@@ -1,18 +1,11 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 from flask_restplus import Api, Resource, fields
-from todoManager import todoDao 
-
-
-"""
-{
-    "id":"alice",
-    "role":["admin","user"],
-}
-"""
+from todoManager import todoDao, tens
 
 app = Flask(__name__)
-api = Api(app, version='1.0', title='Todo-Manager API', description='Todo-Manager API')
-ns = api.namespace('todos', description='Todo-Manager CRUD operations')
+api = Api(app, version='1.0', title='그냥 API', description='그냥 API')
+ns = api.namespace('todos', description='TODO 관리 CRUD API')
+ts = api.namespace('tensorflow', description = "Tensorflow 서비스 테스트" )
 
 todo_item = api.model("todo_item", {
     "title": fields.String(required = True, description = "타이틀"),
@@ -46,4 +39,16 @@ class Todo(Resource):
     def delete(self, id):
         todoDao.remove(id)
         return jsonify(todoDao.find_all())
+
     
+@ts.route("/version")
+class Tens(Resource):
+    def get(self):
+        return jsonify(tens.getVersion())
+    
+
+@ts.route("/<value>")
+class TensGet(Resource):
+    def get(self, value):
+        return jsonify(tens.getValue(value))
+        

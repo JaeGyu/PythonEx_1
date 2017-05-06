@@ -13,7 +13,6 @@ def update(id, todo_item):
 def remove(id):
     mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db")  # db파일에 연결 없다면 생성
     csr = mydb.cursor()  # 커서 객체 얻기 
-    print("id : ", id)
     csr.execute("delete from todo_list where id = ?", (id,)) #파라미터가 하나일경우에 튜플로 만들어 준다 
     mydb.commit()
     mydb.close()
