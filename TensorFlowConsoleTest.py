@@ -54,5 +54,3 @@ print("result[0] : ", result[0])
 
 value = json.dumps({"a": float(result[0])})
 print(value) 
-
-
