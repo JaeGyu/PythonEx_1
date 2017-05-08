@@ -1,2 +1,2 @@
-model_checkpoint_path: "tenserflow_live.ckpt"
-all_model_checkpoint_paths: "tenserflow_live.ckpt"
+model_checkpoint_path: "hans"
+all_model_checkpoint_paths: "hans"

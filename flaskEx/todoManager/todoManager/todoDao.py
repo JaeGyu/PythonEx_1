@@ -1,36 +1,28 @@
-from sqlite3 import *
+from flask import g
+
+def modify(query):
+    mydb = g.db
+    csr = mydb.cursor()  # 커서 객체 얻기 
+    csr.execute(query)
+    mydb.commit()
 
 def update(id, todo_item):
     title = todo_item["title"]
     completed = todo_item["completed"]
-    createdAt = todo_item["createdAt"]
-    mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db") #db파일에 연결 없다면 생성
-    csr = mydb.cursor()  #커서 객체 얻기 
-    csr.execute("update todo_list set title = ?, completed = ?  where id = ?", (title, completed, id))
-    mydb.commit()
-    mydb.close()
+    modify("update todo_list set title = '{}', completed = {}  where id = {}".format(title, int(completed), id))
 
 def remove(id):
-    mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db")  # db파일에 연결 없다면 생성
-    csr = mydb.cursor()  # 커서 객체 얻기 
-    csr.execute("delete from todo_list where id = ?", (id,)) #파라미터가 하나일경우에 튜플로 만들어 준다 
-    mydb.commit()
-    mydb.close()
+    modify("delete from todo_list where id = {}".format(id))
 
 
 def save(todo_item):
     title = todo_item["title"]
     completed = todo_item["completed"]
     createdAt = todo_item["createdAt"]
-    mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db")  # db파일에 연결 없다면 생성
-    csr = mydb.cursor()  # 커서 객체 얻기 
-    csr.execute("insert into todo_list(title,completed,create_time) values(?,?,?)", (title, completed, createdAt))
-    mydb.commit()
-    mydb.close()
-
+    modify("insert into todo_list(title,completed,create_time) values('{}',{},'{}')".format(title, int(completed), createdAt))
 
 def find_all():
-    mydb = connect("/Users/jaegyuhan/dev/sqlite3/todo.db")  # db파일에 연결 없다면 생성
+    mydb = g.db 
     csr = mydb.cursor()  # 커서 객체 얻기 
     csr.execute("""select id,
                           title, 
@@ -54,6 +46,5 @@ def find_all():
     l = [i for i in l] #왜 이렇게 해줘야 하는 것인가?
 
     mydb.commit()
-    mydb.close()
 
     return l
