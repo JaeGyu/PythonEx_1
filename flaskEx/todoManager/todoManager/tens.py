@@ -1,10 +1,10 @@
 import tensorflow as tf
+from flask import g
 
 def getVersion():
     return {"version": tf.__version__}
 
 def getValue(x_value):
-    print("로드가 실행 됩니다 ")
     x_train = tf.placeholder(tf.float32, shape=[None])
     y_train = tf.placeholder(tf.float32, shape=[None])
 
@@ -12,24 +12,22 @@ def getValue(x_value):
     b = tf.Variable(tf.random_normal([1]), name='bias')
     hypothesis = x_train * W + b
 
-    param_list = [W, b]
-    saver = tf.train.Saver(param_list)
-
+    # param_list = [W, b]
+    saver = tf.train.Saver({"my_W":W, "my_b":b})
     cost = tf.reduce_mean(tf.square(hypothesis - y_train))
-
     optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
-
     train = optimizer.minimize(cost)
-
     sess = tf.Session()
 
-    # sess.run(tf.global_variables_initializer())
     saver.restore(sess, "/Users/jaegyuhan/PythonEx_1/flaskEx/todoManager/todoManager/flask")
-
+    
     result = sess.run(hypothesis, feed_dict={x_train: [int(x_value)]})
     sess.close()
     print("result : ", result)
     return {"value": float(result[0])}
+
+
+
     
 
 def getValue2(x_value):

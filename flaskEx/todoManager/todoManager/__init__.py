@@ -8,6 +8,7 @@ DATABASE = "/Users/jaegyuhan/dev/sqlite3/todo.db"
 app = Flask(__name__)
 app.config.from_object(__name__)
 api = Api(app, version='1.0', title='그냥 API', description='그냥 API')
+
 ns = api.namespace('todos', description='TODO 관리 CRUD API')
 ts = api.namespace('tensorflow', description = "Tensorflow 서비스 테스트" )
 
@@ -16,6 +17,7 @@ todo_item = api.model("todo_item", {
     "completed": fields.Boolean(required = False, description = "완료여부"),
     "createdAt": fields.String(required = False, description = "생성일")
 })
+
 
 def connect_db():
     return connect(app.config["DATABASE"])
@@ -35,7 +37,6 @@ def teardown_request(exceprion):
     if hasattr(g, "db"):
         g.db.close()
         
-
 @app.route("/todos")
 def index():
     return render_template("todoManager.html")
