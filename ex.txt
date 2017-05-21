@@ -1,0 +1,11 @@
+
+ㅁㄴ이라ㅓㅁ니러미나럼;닐
+ㅁㄴㅇㄹ
+ㅁㄴㅇㄹㅁㄴㅇ
+ㄹ
+
+class Ex{
+  public static void main(String[] arg){
+      System.out.rp
+  }
+}
