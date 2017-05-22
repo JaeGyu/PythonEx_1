@@ -9,10 +9,15 @@
     <body>
         <div class="container">
             <form action="/number" method="post">
-                <input class="form-control" type="text" name="num"/>
-                <button class="btn btn-info form-control" type="submit">Submit</button>
-            </form>
 
+                <div class="input-group">
+                    <input class="form-control" type="text" name="num"/>
+                    <span class="input-group-btn">
+                      <!-- <button class="btn btn-secondary" type="button">Go!</button> -->
+                      <button class="btn btn-info" type="submit">Submit</button>
+                    </span>
+                  </div>
+            </form>
         </div>
             
     </body>
