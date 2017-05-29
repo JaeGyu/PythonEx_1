@@ -5,6 +5,7 @@ import base64
 import numpy as np
 from PIL import Image
 import tensorflow as tf
+import array
 
 
 app = Flask(__name__)
@@ -45,8 +46,10 @@ def imagePro():
 
     return 'ok'
 
-def convert_to_alpha_list():
-    pixels = Image.open("./temp.png").resize((28,28)).tobytes("raw","A")
+def convert_to_alpha_list(decode_str):
+    img = Image.frombytes(data=decode_str, size=(250,250), mode='RGBA')
+    # pixels = Image.open("./temp.png").resize((28,28)).tobytes("raw","A")
+    pixels = img.resize((28,28)).tobytes("raw","A")
     return np.array([pixel / 255 for pixel in pixels]).reshape(1,784)
 
 
@@ -63,8 +66,7 @@ def predict_to_number(img_arr):
     W3 = tf.Variable(tf.random_normal([256, 10], stddev=0.01), name="w3val")
     model = tf.matmul(L2, W3)
     
-    param_list = [W1, W2, W3]
-    saver = tf.train.Saver(param_list)
+    saver = tf.train.Saver({"w1val":W1, "w2val":W2, "w3val":W3})
     
     with tf.Session() as sess:
         saver.restore(sess, "./number_model/mnist")
@@ -85,14 +87,10 @@ def predict_to_number(img_arr):
 def get_number():
     req_data = request.data.decode('utf-8')
     json_obj = json.loads(req_data)
-    img_str = json_obj['img'].split(',')[-1]
-    decode_str = base64.b64decode(img_str)
-    print(decode_str)
-
-    with open('temp.png','wb') as temp:
-        temp.write(decode_str)
-
-    ll = convert_to_alpha_list()
+    img_str = json_obj['img']
+    print("넘어온 배열의 길이 : ",len(img_str))
+    bt_str = array.array('B', img_str).tostring()
+    ll = convert_to_alpha_list(bt_str)
     result = predict_to_number(ll)
 
     print("예측한 결과는 : ", result[0])
