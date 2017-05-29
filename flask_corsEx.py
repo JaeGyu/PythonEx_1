@@ -4,6 +4,7 @@ import json
 import base64 
 import numpy as np
 from PIL import Image
+import tensorflow as tf
 
 
 app = Flask(__name__)
@@ -43,6 +44,59 @@ def imagePro():
     img2.save("./temp28x28.png")
 
     return 'ok'
+
+def convert_to_alpha_list():
+    pixels = Image.open("./temp.png").resize((28,28)).tobytes("raw","A")
+    return np.array([pixel / 255 for pixel in pixels]).reshape(1,784)
+
+
+def predict_to_number(img_arr):
+    X = tf.placeholder(dtype=tf.float32, shape=[None, 784])
+    Y = tf.placeholder(dtype=tf.float32, shape=[None, 10])
+    
+    W1 = tf.Variable(tf.random_normal(shape=[784, 256], stddev=0.01), name="w1val")
+    L1 = tf.nn.relu(tf.matmul(X, W1))
+    
+    W2 = tf.Variable(tf.random_normal(shape=[256, 256], stddev=0.01), name="w2val")
+    L2 = tf.nn.relu(tf.matmul(L1, W2))
+    
+    W3 = tf.Variable(tf.random_normal([256, 10], stddev=0.01), name="w3val")
+    model = tf.matmul(L2, W3)
+    
+    param_list = [W1, W2, W3]
+    saver = tf.train.Saver(param_list)
+    
+    with tf.Session() as sess:
+        saver.restore(sess, "./number_model/mnist")
+        predict = sess.run([ model ], feed_dict = {X : img_arr})
+        predict = np.array(predict)
+        result = np.argmax(predict[0], axis=1)
+        print("result : ", result)
+        return result
+
+
+"""
+1) 클라이언트에서 넘어온 이미지를 28*28로 변환한다.
+2) 변환한 이미지 중 alpha값만 추출해서 리스트화 한다.
+3) 변환한 alpha값을 0~1사이의 값으로 스케일링한다.
+4) reshape(1,748)을 하여 텐서플로 모델에 질의 한다.
+"""
+@app.route("/api/predict", methods=['POST'])
+def get_number():
+    req_data = request.data.decode('utf-8')
+    json_obj = json.loads(req_data)
+    img_str = json_obj['img'].split(',')[-1]
+    decode_str = base64.b64decode(img_str)
+    print(decode_str)
+
+    with open('temp.png','wb') as temp:
+        temp.write(decode_str)
+
+    ll = convert_to_alpha_list()
+    result = predict_to_number(ll)
+
+    print("예측한 결과는 : ", result[0])
+    return str(result[0])
 
 
 @app.route("/api/image2", methods=['POST'])
