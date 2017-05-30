@@ -14,6 +14,7 @@ CORS(app)
 def convert_to_alpha_list(decode_str):
     img = Image.frombytes(data=decode_str, size=(250, 250), mode='RGBA')
     pixels = img.resize((28, 28)).tobytes("raw", "A")
+    print(pixels)
     return np.array([pixel / 255 for pixel in pixels]).reshape(1,784)
 
 
