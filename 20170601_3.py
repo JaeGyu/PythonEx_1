@@ -1,23 +1,19 @@
-
-
 class Person:
-    name = "hhh"
+    def __init__(self,name):
+        self.name = name
+    
+    def getName(self):
+        return self.name
+    
+    def setName(self,name):
+        self.name = name
 
-
+    
 def main():
-    p = Person() 
-    print(p.name)
-    p.name = "han"
-    print(p.name)
-
-    p2 = Person() 
-    print(p2.name)
-
-    print("*" * 60)
-
-    Person.name = "ka"
-    print(p.name)
-    print(p2.name)
+    p = Person("han") 
+    print(p.getName())
+    p.setName("alice")
+    print(p.getName())
 
 if __name__ == "__main__":
     main()
