@@ -3,7 +3,6 @@
 def sum(a,b):
     return a+b
 
-
 def sumToMany(*args):
     sum = 0
     for i in args:
