@@ -15,3 +15,4 @@ if __name__ == "__main__":
     l = [5,4,3,2,1]
 
     print(selectionSort(l))
+    
