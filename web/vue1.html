@@ -11,12 +11,17 @@
 
 <body>
     <div id="app">
-        
+        {{message}}
     </div>
 
     <script>
         let app = new Vue({
             el: "#app",
+            data(){
+                return {
+                    message : "hello"
+                };
+            }
         });
     </script>
 </body>
