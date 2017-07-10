@@ -8,6 +8,3 @@ print("-" * 60)
 l = f.readlines()
 for i in l:
     print(i)
-
-
-
