@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        header {
+            color: red;
+        }
+
+        /*
+            header의 자식 중 h1에 만 blue적용
+        */
+        header h1 {
+            color: blue;
+        }
+
+        header p {
+            color: blue;
+        }
+
+        header div p{
+            color:blueviolet;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>header h1</h1>
+        <h3>header h3</h3>
+        <p>header p</p>
+        <div>
+            <p>
+                div 안의 p
+            </p>
+            <ul>
+                <li>div 안의 ul의 li #1</li>
+                <li>div 안의 ul의 li #2</li>
+            </ul>
+        </div>
+    </header>
+    <footer>
+        <h1>footer h1</h1>
+        <p>footer p</p>
+    </footer>
+</body>
+
+</html>
