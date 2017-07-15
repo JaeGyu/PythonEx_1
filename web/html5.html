@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        p {
+            color: red;
+        }
+
+        /*나중에 작성한 속성이 우선 된다.*/
+        p {
+            color: blue;
+        }
+
+        /*
+            선택자를 구체적으로 입력 한 쪽의 속성이 적용이 된다. 
+        */
+        header h1 {
+            color: red;
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        /*
+        id가 가장 우선시 된다.
+        */
+        #color {
+            color: gold;
+        }
+
+        .color {
+            color: red;
+        }
+
+        h3 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Nice to meet you!</h1>
+    </header>
+    <p>Hello</p>
+
+    <h3 id="color" class="color">Welcome to CSS</h3>
+</body>
+
+</html>
