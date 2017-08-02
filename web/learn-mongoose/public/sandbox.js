@@ -19,4 +19,12 @@ Array.prototype.forEach.call(yoosa, function (i) {
     console.log(i);
 });
 
+[].forEach.call(yoosa, (i) => {
+    console.log(i);
+});
+
+
+
+
+
 
