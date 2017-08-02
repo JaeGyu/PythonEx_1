@@ -23,6 +23,10 @@ Array.prototype.forEach.call(yoosa, function (i) {
     console.log(i);
 });
 
+Array.from(yoosa).forEach((i) => {
+    console.log(i);
+});
+
 
 
 
