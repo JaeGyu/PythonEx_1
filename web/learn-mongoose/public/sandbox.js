@@ -28,6 +28,15 @@ Array.from(yoosa).forEach((i) => {
 });
 
 
+function arrayLike() {
+    console.log(arguments);
+    [].forEach.call(arguments, (i) => {
+        console.log(i);
+    });
+};
+
+arrayLike(1, 2, 3);
+
 
 
 
