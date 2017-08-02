@@ -24,6 +24,6 @@ module.exports = () => {
         console.error('몽고디비 연결이 끊겼습니다. 연결을 재시도 합니다.');
         connect();
     });
-    // require('./user');
-    // require('./comment');
+    require('./user');
+    require('./comment');
 };
