@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>
-        <%=title %>
+        몽구스 서버
     </title>
     <style>
         table {
@@ -38,7 +38,7 @@
             </fieldset>
         </form>
     </div>
-    <br/>
+    <br />
     <table id="user-list">
         <thead>
             <tr>
@@ -52,22 +52,30 @@
             <% for(let i=0;i<users.length; i++){
                 let user = users[i];
                 %>
-                <tr>
-                    <td><%=user._id %></td>
-                    <td><%=user.name %></td>
-                    <td><%=user.age %></td>
-                    <td><%=(user.married === 1)? '기혼' : '미혼' %></td>
-                </tr>
+            <tr>
+                <td>
+                    <%=user._id %>
+                </td>
+                <td>
+                    <%=user.name %>
+                </td>
+                <td>
+                    <%=user.age %>
+                </td>
+                <td>
+                    <%=(user.married === 1)? '기혼' : '미혼' %>
+                </td>
+            </tr>
             <%}%>
         </tbody>
     </table>
-    <br/>
+    <br />
     <div>
         <form id="comment-form">
             <fieldset>
                 <legend>댓글 등록</legend>
                 <div>
-                    <input id="userid" type="text" placeholder="사용자 아이디"/>
+                    <input id="userid" type="text" placeholder="사용자 아이디" />
                 </div>
                 <div>
                     <input id="comment" type="text" placeholder="댓글" />
@@ -76,7 +84,7 @@
             </fieldset>
         </form>
     </div>
-    <br/>
+    <br />
     <table id="comment-list">
         <thead>
             <tr>
