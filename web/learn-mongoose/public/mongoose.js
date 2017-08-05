@@ -12,12 +12,60 @@
 
 //사용자 로딩
 function getUser() {
+    console.log("getUser이 실행 됐어요!");
+
     var xhr = new XMLHttpRequest();
 
-    console.log("getUser이 실행 됐어요!");
+    /**
+     * ajax 결과 콜백
+     */
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var users = JSON.parse(xhr.responseText);
+            console.log(users);
+
+            var tbody = document.querySelector('#user-list tbody');
+            tbody.innerHTML = '';
+
+            users.map(function (user) {
+                console.log(user);
+
+                var row = document.createElement('tr');
+                row.addEventListener('click', function () {
+                    getComment(user._id);
+                });
+
+                var td = document.createElement('td');
+                td.textContent = user._id;
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.textContent = user.name;
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.textContent = user.age;
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.textContent = user.married ? '기혼' : '미혼';
+                row.appendChild(td);
+
+                tbody.appendChild(row);
+
+            });
+        } else {
+            console.error(xhr.responseText);
+        }
+    };
+
+    xhr.open('GET', '/users');
+    xhr.send();
+
 };
 
 function getComment(id) {
+    console.log("코멘트가 눌렸음");
     console.log(id);
 };
 
@@ -51,6 +99,7 @@ document.getElementById('user-form').addEventListener('submit', function (e) {
     xhr.open('POST', '/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({ name: name, age: age, married: married }));
+    e.target.name.value = '';
     e.target.age.value = '';
     e.target.married.checked = false;
 

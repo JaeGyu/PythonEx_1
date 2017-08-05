@@ -11,7 +11,6 @@ router.get('/', function (req, res, next) {
       console.error(err);
       next(err);
     });
-  res.send('respond with a resource');
 });
 
 router.post('/', (req, res, next) => {
