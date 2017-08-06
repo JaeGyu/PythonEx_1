@@ -104,3 +104,37 @@ document.getElementById('user-form').addEventListener('submit', function (e) {
     e.target.married.checked = false;
 
 });
+
+//댓글 등록 시
+document.getElementById('comment-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    console.log('댓글 서브밋~~');
+
+    var id = e.target.userid.value;
+    var comment = e.target.comment.value;
+
+    if (!id) {
+        return alert('아이디를 입력하세요');
+    }
+
+    if (!comment) {
+        return alert('댓글을 입력하세요');
+    }
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+        if (xhr === 201) {
+            console.log(xhr.responseText);
+            getComment(id);
+        } else {
+            console.error(xhr.responseText);
+        }
+    };
+
+    xhr.open('POST', '/comments');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({ id: id, comment: comment }));
+    e.target.userid.value = '';
+    e.target.comment.value = '';
+});
