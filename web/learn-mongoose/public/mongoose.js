@@ -66,7 +66,18 @@ function getUser() {
 
 function getComment(id) {
     console.log("코멘트가 눌렸음");
-    console.log(id);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var comments = JSON.parse(xhr.responseText);
+            console.log(comments);
+        }
+    };
+
+    xhr.open('GET', '/comments/' + id);
+    xhr.send();
+
 };
 
 document.getElementById('user-form').addEventListener('submit', function (e) {
@@ -124,7 +135,7 @@ document.getElementById('comment-form').addEventListener('submit', function (e) 
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
-        if (xhr === 201) {
+        if (xhr.status === 201) {
             console.log(xhr.responseText);
             getComment(id);
         } else {

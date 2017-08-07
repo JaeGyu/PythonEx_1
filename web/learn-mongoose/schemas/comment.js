@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 const { Types: { ObjectId } } = Schema;
 const commentSchema = new Schema({
     commenter: {
         type: ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'User',
     },
     comment: {
         type: String,
