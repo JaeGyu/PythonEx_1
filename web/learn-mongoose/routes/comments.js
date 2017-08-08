@@ -5,6 +5,10 @@ var router = express.Router();
 
 router.get('/:id', function (req, res, next) {
     const trimId = req.params.id.trim();
+
+    /**
+     * id에 공백이 앞에 있으면 에러 발생
+     */
     Comment.find({ commenter: trimId }).populate('commenter')
         .then((comments) => {
             console.log(comments);
@@ -12,7 +16,7 @@ router.get('/:id', function (req, res, next) {
         })
         .catch((err) => {
             console.log("에러남");
-            console.error("에러남 : ",err);
+            console.error("에러남 : ", err);
             next(err);
         });
 });
@@ -30,6 +34,17 @@ router.post('/', function (req, res, next) {
         .then((result) => {
             console.log("json 리턴~");
             res.status(201).json(result);
+        })
+        .catch((err) => {
+            console.error(err);
+            next(err);
+        });
+});
+
+router.patch('/:id', function (req, res, next) {
+    Comment.update({ _id: req.params.id }, { comment: req.body.comment })
+        .then((result) => {
+            res.json(result);
         })
         .catch((err) => {
             console.error(err);

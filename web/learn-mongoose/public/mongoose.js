@@ -72,6 +72,68 @@ function getComment(id) {
         if (xhr.status === 200) {
             var comments = JSON.parse(xhr.responseText);
             console.log(comments);
+            var tbody = document.querySelector('#comment-list tbody');
+            tbody.innerHTML = '';
+
+            comments.map(function (comment) {
+                console.log(comment);
+
+                var row = document.createElement('tr');
+                var td = document.createElement('td');
+                td.textContent = comment._id;
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.textContent = comment.commenter.name;
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.textContent = comment.comment;
+                row.appendChild(td);
+
+                var edit = document.createElement('button');
+                edit.textContent = '수정';
+
+                edit.addEventListener('click', function () {
+                    console.log('수정 클릭!');
+
+                    var newComment = prompt('바꿀 내용을 입력하세요');
+                    if (!newComment) {
+                        return alert('내용을 반드시 입력하셔야 합니다.');
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            console.log(xhr.responseText);
+                            getComment(id);
+                        } else {
+                            console.error(xhr.responseText);
+                        }
+                    };
+
+                    xhr.open('PATCH', '/comments/' + comment._id);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify({ comment: newComment }));
+                });
+
+                var remove = document.createElement('button');
+                remove.textContent = '삭제';
+                remove.addEventListener('click', function () {
+                    console.log('삭제 클릭');
+                });
+
+                td = document.createElement('td');
+                td.appendChild(edit);
+                row.appendChild(td);
+
+                td = document.createElement('td');
+                td.appendChild(remove);
+                row.appendChild(td);
+
+                tbody.appendChild(row);
+
+            });
         }
     };
 
