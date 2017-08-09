@@ -121,6 +121,19 @@ function getComment(id) {
                 remove.textContent = '삭제';
                 remove.addEventListener('click', function () {
                     console.log('삭제 클릭');
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            console.log(xhr.responseText);
+                            getComment(id);
+                        } else {
+                            console.error(xhr.responseText);
+                        }
+                    };
+
+                    xhr.open('DELETE', '/comments/' + comment._id);
+                    xhr.send();
                 });
 
                 td = document.createElement('td');
@@ -134,6 +147,8 @@ function getComment(id) {
                 tbody.appendChild(row);
 
             });
+        } else {
+            console.error(xhr.responseText);
         }
     };
 
