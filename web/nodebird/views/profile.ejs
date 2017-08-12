@@ -1,0 +1,28 @@
+<%-include('layout')%>
+<div class="timeline">
+    <div class="followings half">
+        <h2>팔로잉 목록</h2>
+        <%if(user.Followings){
+            for(let i=0;i<user.Followings.length;i++){
+                let following = user.Followings[i];
+            %>
+        <div>
+            <%= following.nick%>
+        </div>
+        <%}
+        }%>
+    </div>
+    <div class="follows half">
+        <h2>팔로워 목록</h2>
+        <%if(user.Followers){
+            for(let i=0;i<user.Followers.length;i++){
+                let follower = user.Followers[i];
+            %>
+        <div>
+            <%= follower.nick%>
+        </div>
+        <%}
+        }%>
+    </div>
+</div>
+<%-include('layoutFooter')%>

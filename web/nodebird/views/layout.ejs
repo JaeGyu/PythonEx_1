@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <link rel="stylesheet" href="/main.css" />
+    <title>
+        <%=title%>
+    </title>
+</head>
+
+<body>
+    <div class="container">
+        <%=user%>
+        <div class="profile-wrap">
+            <div class="profile">
+                <% if(user && user.id) {%>
+                <div class="user-name">
+                    안녕하세요
+                    <%=user.nick%>님
+                </div>
+                <div class="half">
+                    <div>팔로잉</div>
+                    <div class="count following-count">
+                        <%= user.Followings && user.Followings.length || 0%>
+                    </div>
+                </div>
+                <div class="half">
+                    <div>팔로워</div>
+                    <div class="count follower-count"></div>
+                </div>
+                <input id="my-id" type="hidden" value="<%=user.id%>" /> <!-- value에 값 넣는 법-->
+                <a id="my-profile" class="btn" href="/profile">내 프로필</a>
+                <a id="logout" class="btn" href="/auth/logout">로그아웃</a>
+                <%} else {%>
+                <form id="login-form" action="/auth/login" method="post">
+                    <div class="input-group">
+                        <label for="email">이메일</label>
+                        <input id="email" type="email" name="email" required autofocus />
+                    </div>
+                    <div class="input-group">
+                        <label for="password">비밀번호</label>
+                        <input id="password" type="password" name="password" required />
+                    </div>
+                    <% if(loginError) {%>
+                    <div class="error-message">
+                        <%=loginError%>
+                    </div>
+                    <%}%>
+                    <a id="join" class="btn" href="/join">회원가입</a>
+                    <button id="login" class="btn" type="submit">로그인</button>
+                    <a id="kakao" class="btn" href="/auth/kakao">카카오톡</a>
+                </form>
+                <%}%>
+            </div>
+            <footer>
+                Made by&nbsp;
+                <a href="https://github.com/JaeGyu" target="_blank">jaegyu</a>
+            </footer>
+        </div>
+
+    <!-- </div>
+</body>
+
+</html> -->
