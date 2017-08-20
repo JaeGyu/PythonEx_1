@@ -21,6 +21,7 @@ const server = http.createServer((req, res) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(users, null, 4));
+        // res.json.send(users);
     } else {
         res.statusCode = 404;
         res.end('Not Found');
