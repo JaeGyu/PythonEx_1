@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "mocha expressEx7.spec.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
+    "body-parser": "^1.18.3",
     "mocha": "^5.2.0",
     "should": "^13.2.3",
     "supertest": "^3.3.0"
