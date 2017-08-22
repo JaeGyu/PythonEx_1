@@ -80,6 +80,29 @@ app.post('/users', (req, res) => {
     res.status(201).json(user);
 });
 
+app.put('/users/:id', (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
+    
+    if (Number.isNaN(id)) return res.status(400).end();
+    if (users.filter(user => user.id === id).length == 0) return res.status(404).end();
+
+    next();
+}, (req, res, next) => {
+    const name = req.body.name;
+
+    if (!name) return res.status(400).end();
+    if (users.filter(user => user.name === name).length > 0) return res.status(409).end();
+
+    next();
+}, (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const name = req.body.name;
+    const user = users.filter(user => user.id === id)[0];
+    user.name = name;
+
+    res.json(user);
+});
+
 app.listen(3000, () => {
     console.log("Server is Running");
 });

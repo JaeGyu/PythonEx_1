@@ -9,6 +9,8 @@ require('dotenv').config();
 
 const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
+const postRouter = require('./routes/post');
+const userRouter = require('./routes/user');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
@@ -21,7 +23,8 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8001);
 
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/',express.static(path.join(__dirname, 'public')));   
+app.use('/img',express.static(path.join(__dirname, 'uploads')));  //실제 upload에 있지만 마치 img에 있는것 처럼 할 수 있다.
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));   //-->
 app.use(cookieParse(process.env.COOKIE_SECRET));
@@ -40,7 +43,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', pageRouter);
+app.use('/user', userRouter);
 app.use('/auth', authRouter);
+app.use('/post', postRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
