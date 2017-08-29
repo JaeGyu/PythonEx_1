@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>채팅 클라이언트 01</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>채팅 클라이언트 01</h3>
+        <br>
+        <div>
+            <input type="text" id="hostInput" v-model="host" />
+            <input type="text" id="portInput" v-model="port" />
+            <input v-on:click="connect" type="button" id="connectButton" value="연결하기" />
+        </div>
+        <br />
+        <div>
+            <div>
+                <span>보내는 사람 아이디 : </span>
+                <input type="text" v-model="senderInput" id="senderInput" />
+            </div>
+            <div>
+                <span>받는 사람 아이디 : </span>
+                <input type="text" v-model="recepientInput" id="recepientInput" />
+            </div>
+            <div>
+                <span>메시지 데이터 : </span>
+                <input type="text" v-model="dataInput" id="dataInput" />
+            </div>
+            <br>
+            <input v-on:click="send" type="button" id="sendButton" value="전송" />
+        </div>
+
+        <hr />
+        <p>결과 : </p>
+        <div id="result">
+            <p v-for="result in results">{{result}}</p>
+        </div>
+    </div>
+    <script>
+        let socket;
+        const app = new Vue({
+            el: '#app',
+            data: {
+                host: "localhost",
+                port: "8080",
+                results: [],
+                senderInput: "test01",
+                recepientInput: "ALL",
+                dataInput: "안녕!",
+            },
+            methods: {
+                connect: function () {
+                    this.println("connectButton이 클릭되었습니다.");
+                    this.connectToServer();
+                },
+                send: function () {
+                    const output = {
+                        sender: this.senderInput,
+                        recepient: this.recepientInput,
+                        command: 'chat',
+                        type: 'text',
+                        data: this.dataInput,
+                    };
+
+                    console.log('서버로 보낼 데이터 : ', JSON.stringify(output));
+
+                    if (socket == undefined) {
+                        alert('서버에 연결되어 있지 않습니다. 먼저 서버에 연결하세요,');
+                        return;
+                    }
+
+                    socket.emit('message', output);
+                },
+                connectToServer: function () {
+                    const options = { 'forceNew': true };
+                    const url = 'http://' + this.host + ':' + this.port;
+                    socket = io.connect(url, options);
+
+                    socket.on('connect', function () {
+                        app.println(`웹 소켓 서버에 연결되었습니다. : ${url}`);
+
+                        /*
+                        클라이언트와 서버 간에 데이터를 주고받기 위해서는 먼저 클라이언트가 서버에
+                        연결되어야 하므로 connect이벤트를 처리하는 콜백함수 안에서 
+                        데이터 송수신과 관련된 이벤트를 처리하도록 한다.
+                        그러나 이렇게 안하고 밖으로 빼도 별다른 문제는 생기지 않는다.
+                        */
+                        socket.on('message', (message) => {
+                            console.log(JSON.stringify(message));
+                            app.println(`${message.sender}, ${message.recepient}, ${message.command}
+                            , ${message.type}, ${message.data}`);
+                        });
+                    });
+
+                    socket.on('disconnect', function () {
+                        app.println('웹 소켓 연결이 종료되었습니다. : ');
+                    });
+
+                },
+                println: function (data) {
+                    console.log(data);
+                    this.results.push(data);
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

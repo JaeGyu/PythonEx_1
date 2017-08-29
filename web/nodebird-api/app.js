@@ -1,22 +1,26 @@
 const express = require('express');
 const path = require('path');
-const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const morgan = require('morgan');
 const session = require('express-session');
 const flash = require('connect-flash');
 require('dotenv').config();
 
-// const webSocket = require('./socket');
-const Socket_io = require('./socket_io');
+const { sequelize } = require('./models');
+const passportConfig = require('./passport');
+const authRouter = require('./routes/auth');
 const indexRouter = require('./routes');
-const connect = require('./schemas');
+const v1 = require('./routes/v1');
+const v2 = require('./routes/v2');
 
 const app = express();
-connect();
+sequelize.sync();
+passportConfig(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 8005);
+app.set('port', process.env.PORT || 8002);
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,11 +33,17 @@ app.use(session({
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
-        secure: false
+        secure: false,
     },
 }));
 
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/v1', v1);
+app.use('/v2', v2);
+app.use('/auth', authRouter);
 app.use('/', indexRouter);
 
 app.use((req, res, next) => {
@@ -46,12 +56,17 @@ app.use((err, req, res) => {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.status(err.status || 500);
-    res.render('error');
+    res.render();
 });
 
-const server = app.listen(app.get('port'), () => {
+app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
 });
 
 
-Socket_io(server);
+
+
+
+
+
+

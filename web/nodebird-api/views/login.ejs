@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title> NodeBird 로그인</title>
+    <style>
+        .input-group label {
+            width: 200px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <% if(user && user.id) {%>
+    <span class="user-name">안녕하세요!
+        <%=user.nick%>님</span>
+    <a href="/auth/logout"><button>로그아웃</button></a>
+    <fieldset>
+        <legend>도메인 등록</legend>
+        <form action="/domain" method="POST">
+            <div>
+                <lebel for="type-free">무료</lebel>
+                <input id="type-free" type="radio" name="type" value="free" />
+                <label for="type-premium">프리미엄</label>
+                <input id="type-premium" type="radio" name="type" value="premium" />
+            </div>
+            <div>
+                <label for="host">도메인</label>
+                <input id="host" name="host" placeholder="ex) zerocho.com" />
+            </div>
+            <button>저장</button>
+        </form>
+    </fieldset>
+    <table>
+        <tr>
+            <th>도메인 주소</th>
+            <th>타입</th>
+            <th>클라이언트 비밀키</th>
+        </tr>
+        <%for(let i=0;i<user.domains.length;i++){
+            const domain = user.domains[i];
+            %>
+            <tr>
+                <td><%=domain.host%></td>
+                <td><%=domain.type%></td>
+                <td><%=domain.clientSecret%></td>
+            </tr>
+        <%}%>
+    </table>
+    <%} else {%>
+    <form id="login-form" action="/auth/login" method="post">
+        <h2>NodeBird 계정으로 로그인하세요.</h2>
+        <div id="input-group">
+            <label for="email">이메일</label>
+            <input id="email" type="email" name="email" required autofocus />
+        </div>
+        <div id="input-group">
+            <label for="password">비밀번호</label>
+            <input id="password" type="password" name="password" required />
+        </div>
+
+        <%if(loginError){%>
+        <div class="error-message">
+            <%=loginError%>
+        </div>
+        <%}%>
+        <a href="/join"><button id="join" type="button">회원가입</button></a>
+        <button id="login" type="submit">로그인</button>
+    </form>
+    <%}%>
+</body>
+
+</html>
