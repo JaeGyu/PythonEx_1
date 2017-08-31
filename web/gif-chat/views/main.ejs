@@ -20,13 +20,14 @@
                     <th>종류</th>
                     <th>허용 인원</th>
                     <th>방장</th>
+                    <th>입장</th>
                 </tr>
             </thead>
             <tbody>
                 <%for(var i=0;i<rooms.length;i++){
                     const room = rooms[i];    
                 %>
-                <tr data-id=room._id>
+                <tr data-id="<%=room._id%>">
                     <td>
                         <%= room.title%>
                     </td>
@@ -36,11 +37,11 @@
                     <td>
                         <%= room.max%>
                     </td>
-                    <td style='color:"<%=room.owner%>"'>
+                    <td style="color:<%=room.owner%>">
                         <%=room.owner%>
                     </td>
                     <% var password = room.password? 'true':'false';%>
-                    <td><button data-password=password data-id=room._id class="join-btn">입장</button></td>
+                    <td><button data-password="<%=password%>" data-id="<%=room._id%>" class="join-btn">입장</button></td>
                 </tr>
                 <%}%>
             </tbody>

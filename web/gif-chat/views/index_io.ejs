@@ -11,7 +11,7 @@
     <div>F12를 눌러 console탭과 network탭을 확인하세요.</div>
     <script>
         const socket = io.connect('http://localhost:8005', {
-            path: '/socket.io',
+            path: '/socket.io',  //패스가 서버쪽에 적어놓은 패스와 일치 해야 한다.
             // transports: ['websocket']  //처음 부터 websocket방식으로 사용하고 싶다면....
         });
 

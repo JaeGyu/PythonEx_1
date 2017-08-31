@@ -21,7 +21,7 @@ module.exports = (server) => {
 
         const interval = setInterval(() => {
             if (ws.readyState === ws.OPEN) {
-                ws.send('서버에서 클라이언트로 메시지를 보냅니다.');
+                ws.send('서버에서 클라이언트로 메시지를 보냅니다.' + Date.now());
             }
         }, 3000);
 

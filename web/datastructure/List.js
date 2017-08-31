@@ -17,7 +17,24 @@ function List() {
     this.toString = function () {
         return this.dataStore;
     };
-    // this.insert = insert;
+
+    /**
+     * after이 안넘어 온다면 리스트의 끝에 입력을 한다.
+     * after을 찾을 수 없다면 리스트의 끝에 입력을 한다.
+     */
+    this.insert = function (element, after) {
+
+        if (after < this.listSize) {
+            this.dataStore.splice(after, 0, element);
+            ++this.listSize;
+        } else {
+            this.dataStore.push(element);
+            ++this.listSize;
+        }
+
+        return true;
+    };
+
     this.append = function (element) {
         this.dataStore[this.listSize++] = element;  //추가한 다음 listSize를 하나 증가 해준다.
     };
@@ -30,7 +47,7 @@ function List() {
         }
         return false;
     };
-    this.length = function(){
+    this.length = function () {
         return this.listSize;
     };
 }
@@ -46,6 +63,9 @@ console.log(l.length());
 console.log(l.toString());
 
 
+l.insert("b", 1);
+console.log(l.length());
+console.log(l.toString());
 
 
 

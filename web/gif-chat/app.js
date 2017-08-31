@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
+const ColorHash = require('color-hash');
+
 require('dotenv').config();
 
 // const webSocket = require('./socket');
@@ -14,6 +16,16 @@ const connect = require('./schemas');
 const app = express();
 connect();
 
+const sessionMiddleware = session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+        httpOnly: true,
+        secure: false
+    },
+});
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8005);
@@ -23,17 +35,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-        httpOnly: true,
-        secure: false
-    },
-}));
-
+app.use(sessionMiddleware);
 app.use(flash());
+
+/**
+ * 사용자 정의 미들웨어를 만들어 준다.
+ * 아래의 미들웨어는 접속자 별로 랜덤의 컬러를 부여 해준다.
+ */
+app.use((req, res, next) => {
+    if (!req.session.color) {
+        const colorHash = new ColorHash();
+        req.session.color = colorHash.hex(req.sessionID);
+    }
+    next();
+});
+
 app.use('/', indexRouter);
 
 app.use((req, res, next) => {
@@ -54,4 +70,7 @@ const server = app.listen(app.get('port'), () => {
 });
 
 
-Socket_io(server);
+Socket_io(server, app, sessionMiddleware);
+
+
+// webSocket(server);
