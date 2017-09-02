@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.5.1/vue-router.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="checkbox" value="1" v-model="checks" />
+            <label>1</label>
+            <input type="checkbox" value="2" v-model="checks" />
+            <label>2</label>
+            <input type="checkbox" value="3" v-model="checks" />
+            <label>3</label>
+        </div>
+
+        <h1>{{checks}}</h1>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    checks: []
+                };
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.5.1/vue-router.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" name="" v-model:value="value" />
+        <h1>{{sum}}</h1>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    sum: 1,
+                    value: 1
+                };
+            },
+            watch: {
+                value: function (d) {
+                    if (d === '') {
+                        this.sum += 0;
+                    } else if (isNaN(d)) {
+                        this.sum += 0;
+                    } else {
+                        this.sum += parseInt(d);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
